@@ -85,7 +85,7 @@ actor FirestoreTranslationStore: TranslationHistoryStore {
     }
 
     private func getDocuments() async throws -> QuerySnapshot {
-        try await withCheckedThrowingContinuation { continuation in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<QuerySnapshot, Error>) in
             collection.getDocuments { snapshot, error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -103,7 +103,7 @@ actor FirestoreTranslationStore: TranslationHistoryStore {
     }
 
     private func setDocument(id: String, payload: [String: Any]) async throws {
-        try await withCheckedThrowingContinuation { continuation in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             collection.document(id).setData(payload) { error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -115,7 +115,7 @@ actor FirestoreTranslationStore: TranslationHistoryStore {
     }
 
     private func commit(batch: WriteBatch) async throws {
-        try await withCheckedThrowingContinuation { continuation in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             batch.commit { error in
                 if let error {
                     continuation.resume(throwing: error)
